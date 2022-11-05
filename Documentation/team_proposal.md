@@ -27,7 +27,7 @@ Using an adjacency list
 We’re using an adjacency list to convert our data into a directed graph, which is an appropriate input for all 3 of our algorithms. 
 
 ### Function Outputs 
-For DFS, we will have no output, as its purpose is to traverse and edit our data. For Tarjan’s algorithm, we would want to output a vector of sets, where each set is all the user IDs that make up one connected component. For Djikstra’s Shortest Path algorithm, we’ll be outputting the shortest path. We will print the output from Tarjan’s algorithm in the command line(printing the user IDs in the same strongly connected component together and separating the different strongly connected components with curly brackets).
+For DFS, we will have no output, as its purpose is to traverse and edit our data. For Tarjan’s algorithm, we would want to output a vector of sets, where each set is all the user IDs that make up one connected component. For Djikstra’s Shortest Path algorithm, we’ll be outputting the shortest path. We will print the output from Tarjan’s algorithm in the command line (printing the user IDs in the same strongly connected component together and separating the different strongly connected components with curly brackets).
 
 ### Function Efficiency
 *DFS Traversal*
