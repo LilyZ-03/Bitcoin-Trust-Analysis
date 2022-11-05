@@ -29,17 +29,3 @@ We will communicate with each other to resolve our issues. We will also consult 
 
 Lily Zhang (shuxing3), Trisha Choudhary (trishac2), Anagha Shenoy (anaghas2), Anjana Gulapalyam (anjanag3)
 
-
-What goals you had set for the week and whether they were accomplished or not
-
-
-What specific tasks each member of your team accomplished in the week
-
-What problems you encountered (if any) that prevented you from meeting your goals
-
-What you plan to accomplish next week
-
-Optional: If you have any questions you would like your mentor to answer, include them here!
-
-This week, our goal was to finish the project proposal and team contract. We were able to accomplish this goal just on time. Since this was a task for our whole team, everybody met for a few hours this week to work on the project proposal and team contract, and no one had a singular specific task. The only problem that we encountered was that halfway through, we had to change our dataset because it was not compatible with the algorithms we were planning to use. However, we were able to find a new dataset, and luckily, this did not prevent us from meeting our goal. Next week, as outlined in our project proposal, we plan to complete a function to parse the dataset and store it in our data structure, which will be a std::map. 
-
