@@ -61,10 +61,12 @@ Graph::Graph(const std::string &filename) {
 
 	if (problem.size() != 0) {
 
-		std::cout << "invalid data entries exist." << std::endl;
+		// std::cout << "invalid data entries exist." << std::endl;
+		throw "Invalid data entries exist.";
 
 		for (size_t i = 0; i < problem.size(); i++) 
-			std::cout << "problem exist at line " << problem[i].first << " entry " << problem[i].second << std::endl;
+			// std::string message = "Problem exists at line " + problem[i].first;
+			throw "Problem exists at line " + std::to_string(problem[i].first);
 	
 	} else {
 
@@ -76,6 +78,9 @@ Graph::Graph(const std::string &filename) {
 			if (graph_.find(source) == graph_.end()) {
 				graph_[source] = std::vector<std::pair<int,int>>();
 			} 
+			if (graph_.find(target) == graph_.end()) {
+				graph_[target] = std::vector<std::pair<int,int>>();
+			}
 			graph_[source].push_back(std::make_pair(target, weight));
 		}
 
@@ -92,6 +97,40 @@ std::vector<std::vector<std::string>> Graph::parseData(const std::string &filena
         dataVec.push_back(parseLine(line.substr(0, line.size() - 1)));
     }
 
-    file.close();
+    file.close();  
     return dataVec;
+}
+
+void Graph::DFS() {
+	std::set<int> visited;
+	// Call DFS on every vertex that hasn't been visited yet
+	// to take care of unconnected components
+	for (auto it = graph_.begin(); it != graph_.end(); it++) {
+		if (visited.find(it->first) == visited.end()) {
+			DFSHelper(it->first, visited);
+		}
+	}
+}
+
+void Graph::DFSHelper(int vertex, std::set<int>& visited) {
+	visited.insert(vertex);
+
+	for (auto const& neighbor : graph_.at(vertex)) {
+		if (visited.find(neighbor.first) == visited.end()) {
+			DFSHelper(neighbor.first, visited);
+		}
+	}
+
+	disconnect(vertex);
+} 
+
+// Disconnect edges between vertices that are negative or not weighted high enough
+// Criteria: If edge is weighted at the bound or lower, weakly related
+void Graph::disconnect(int vertex) {
+	for (size_t i = 0; i < graph_.at(vertex).size(); i++) { // e is a pair <user id of the other user, weight of edge>
+		if (graph_.at(vertex).at(i).second <= BOUND_) {
+			graph_.at(vertex).erase(graph_.at(vertex).begin() + i);
+			i--;  
+		}
+	}          
 }
