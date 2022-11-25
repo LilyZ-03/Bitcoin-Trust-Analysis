@@ -101,6 +101,14 @@ std::vector<std::vector<std::string>> Graph::parseData(const std::string &filena
     return dataVec;
 }
 
+std::vector<std::pair<int, int>> Graph::getEdge(int vertex) {
+	return graph_.at(vertex);
+}
+
+int Graph::getNumVertices() {
+	return graph_.size();
+}
+
 void Graph::DFS() {
 	std::set<int> visited;
 	// Call DFS on every vertex that hasn't been visited yet
@@ -134,3 +142,37 @@ void Graph::disconnect(int vertex) {
 		}
 	}          
 }
+
+std::vector<std::set<int>> Graph::getSCC() {
+	std::vector<std::set<int>> scc;
+	std::stack<int> s;
+	
+	for (int i = 0; i <= getNumVertices(); i++) { // initializing all vectors with -1
+		disc.push_back(-1);
+		low.push_back(-1);
+		stackMember.push_back(false);
+	}
+
+	for (int i = 0; i <= getNumVertices(); i++) {
+		if (disc.at(i) == -1 && graph_.find(i) != graph_.end()) {
+			SCCHelper(i, s);
+		}
+	}
+
+	std::map<int, std::set<int>> scc_map; 
+	for (size_t i = 0; i < low.size(); i++) {
+		if (low.at(i) != -1) {
+			scc_map[low.at(i)].insert(i);
+		}
+	}
+
+	for (auto p : scc_map) {
+		if (p.second.size() > 1) {
+			scc.push_back(p.second);
+		}
+	}
+
+	return scc;
+}
+
+void Graph::SCCHelper(int u, std::stack<int>& s) { }
