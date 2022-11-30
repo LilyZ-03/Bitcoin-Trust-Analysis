@@ -7,6 +7,8 @@
 #include <fstream>
 #include <set>
 #include <stack>
+#include <fstream>
+#include <algorithm>
 
 class Graph {
     public:

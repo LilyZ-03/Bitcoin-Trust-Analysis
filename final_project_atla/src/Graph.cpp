@@ -1,5 +1,4 @@
 #include "Graph.hpp"
-#include <fstream>
 
 std::vector<std::string> parseLine(std::string line) {
 	size_t l = 0, r = 0;
@@ -147,13 +146,23 @@ std::vector<std::set<int>> Graph::getSCC() {
 	std::vector<std::set<int>> scc;
 	std::stack<int> s;
 	
-	for (int i = 0; i <= getNumVertices(); i++) { // initializing all vectors with -1
+	disc.clear();
+	low.clear();
+	stackMember.clear();
+
+	auto test_iter = graph_.end();
+    test_iter--;
+
+	int maxIDNumber = test_iter->first;
+	//std::cout << "maxIDNo " << maxIDNumber << std::endl;
+
+	for (int i = 0; i <= maxIDNumber; i++) { // initializing all vectors with -1
 		disc.push_back(-1);
 		low.push_back(-1);
 		stackMember.push_back(false);
 	}
 
-	for (int i = 0; i <= getNumVertices(); i++) {
+	for (int i = 0; i <= maxIDNumber; i++) {
 		if (disc.at(i) == -1 && graph_.find(i) != graph_.end()) {
 			SCCHelper(i, s);
 		}
@@ -175,4 +184,32 @@ std::vector<std::set<int>> Graph::getSCC() {
 	return scc;
 }
 
-void Graph::SCCHelper(int u, std::stack<int>& s) { }
+void Graph::SCCHelper(int u, std::stack<int>& s) { 
+	static int time = 0;
+	disc[u] = low[u] = ++time;
+	s.push(u);
+	stackMember[u] = true;
+
+	for (auto it = graph_[u].begin(); it != graph_[u].end(); it++) {
+		int v = it->first;
+		if (disc[v] == -1) {
+			SCCHelper(v, s);
+			low[u] = std::min(low[u], low[v]);
+		} else if (stackMember[v] == true) {
+			low[u] = std::min(low[u], disc[v]);
+		}
+	}
+
+	int w = 0;
+
+	if (low[u] == disc[u]) {
+		while (s.top() != u) {
+			w = (int)s.top();
+			stackMember[w] = false;
+			s.pop();
+		}
+		w = (int) s.top();
+		stackMember[w] = false;
+		s.pop();
+	}
+}
