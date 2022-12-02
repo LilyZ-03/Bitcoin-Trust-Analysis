@@ -4,8 +4,42 @@
 
 #include "Graph.hpp"
 
+TEST_CASE("Test Graph constructor - small") {
+     try {
+        std::string file = "../data/tarjan-test1.csv";
+        Graph g(file);
+        auto graph = g.getGraph();
+
+        int edge_count = 0;
+        for (auto i : graph) {
+            edge_count += i.second.size();
+        }
+        REQUIRE(edge_count == 18);
+
+        // Test whether the graph was built properly by checking connections
+        
+        std::map<int, std::vector<std::pair<int, int>>> expected;
+
+        expected[1] = {std::make_pair(2, 5), std::make_pair(3, 4), std::make_pair(4, 3)};
+        expected[2] = {std::make_pair(3, 4)};
+        expected[3] = {std::make_pair(1, 4), std::make_pair(7, -1)};
+        expected[4] = {std::make_pair(7, 4), std::make_pair(1, -2)};
+        expected[5] = {std::make_pair(6, 6), std::make_pair(8, 4), std::make_pair(10, 4)};
+        expected[6] = {std::make_pair(9, 4), std::make_pair(10, 10)};
+        expected[7] = {std::make_pair(1, 1)};
+        expected[8] = {std::make_pair(5, 4)};
+        expected[9] = {std::make_pair(5, 3)};
+        expected[10] = {std::make_pair(5, 4), std::make_pair(6, 4)};
+
+        for (int i = 1; i <= 10; i++) {
+            REQUIRE(graph.at(i) ==  expected.at(i));
+        }
+    } catch(...) {
+        REQUIRE(false);
+    }
+}
+
 TEST_CASE("Test Graph constructor") {
-    
     try {
         std::string file = "../data/soc-sign-bitcoinotc.csv";
         Graph g(file);
@@ -19,11 +53,9 @@ TEST_CASE("Test Graph constructor") {
     } catch(...) {
         REQUIRE(false);
     }
-
 }
 
-TEST_CASE("Test disconnect method on dummy graph") {
-    
+TEST_CASE("Test disconnect method on dummy graph") { 
     std::map<int, std::vector<std::pair<int, int>>> dummy = std::map<int, std::vector<std::pair<int, int>>>();
     dummy[0] = {std::make_pair(1,4), std::make_pair(2,1), std::make_pair(3,-1), std::make_pair(1,-10)};
     dummy[1] = {std::make_pair(1,-10), std::make_pair(2,10)};
@@ -77,6 +109,23 @@ TEST_CASE("Test disconnect method on dummy graph") {
     REQUIRE(dummy.at(vertex).size() == 0);
 }
 
+TEST_CASE("Test disconnect method during DFS - small") {
+    try {
+        std::string file = "../data/tarjan-test1.csv";
+        Graph g(file);
+        g.DFS();
+        auto graph = g.getGraph();
+
+        for (auto i : graph) {
+            for (auto e : i.second) {
+                REQUIRE(e.second > 2);
+            }
+        }
+    } catch(...) {
+        REQUIRE(false);
+    }
+}
+
 TEST_CASE("Test disconnect method during DFS") {
     std::string file = "../data/soc-sign-bitcoinotc.csv";
     Graph g(file);
@@ -91,3 +140,17 @@ TEST_CASE("Test disconnect method during DFS") {
     }
 }
 
+TEST_CASE("Test Tarjan's - small") {
+    std::string file = "../data/tarjan-test1.csv";
+    Graph g(file);
+    g.DFS();
+    std::vector<std::set<int>> scc = g.getSCC();
+
+    REQUIRE(scc.size() == 2);
+
+    std::set<int> scc1 {1,2,3};
+    std::set<int> scc2 {5,6,8,9,10};
+
+    REQUIRE(scc.at(0) == scc1);
+    REQUIRE(scc.at(1) == scc2);
+}
