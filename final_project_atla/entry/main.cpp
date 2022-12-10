@@ -60,7 +60,7 @@ int main() {
     int startPt;
 
     std::ofstream myfile;
-    myfile.open("output.txt");
+    myfile.open("../output.txt");
 
     std::cout << "Please enter the user ID:" << std::endl;
     std::cin >> startPt;
@@ -94,7 +94,7 @@ int main() {
             std::cin >> boundary;
 
             // std::cout << "Suggested user(s):\n";
-            myfile << "Suggested user(s):\n";
+            myfile << "Suggested user(s) for user " << startPt << " with boundary " << boundary << ":\n";
 
             int countSuggested = 0;
 
