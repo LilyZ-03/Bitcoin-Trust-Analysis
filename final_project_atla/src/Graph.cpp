@@ -176,7 +176,7 @@ std::vector<std::set<int>> Graph::getSCC() {
 	}
 
 	for (auto p : scc_map) {
-		if (p.second.size() > 1) {
+		if (p.second.size() > 1 /*&& checkSCC(p.second)*/) {
 			scc.push_back(p.second);
 		}
 	}
@@ -213,3 +213,118 @@ void Graph::SCCHelper(int u, std::stack<int>& s) {
 		s.pop();
 	}
 }
+
+std::set<int> Graph::getParentSCC(std::vector<std::set<int>>& scc, int v) {
+	for (size_t i = 0; i < scc.size(); i++) {
+		if (scc.at(i).find(v) != scc.at(i).end()) 
+			return scc.at(i);
+	}
+
+	return std::set<int>();
+}
+
+std::map<int, std::vector<std::pair<int, int>>> Graph::getSCCGraph(std::vector<std::set<int>>& scc, int v) {
+	std::set<int> sccSet = getParentSCC(scc, v);
+	if (sccSet.size() == 0) return std::map<int, std::vector<std::pair<int, int>>>();
+	std::map<int, std::vector<std::pair<int, int>>> new_graph;
+	for (int i : sccSet) {
+		std::vector<std::pair<int, int>> new_edges;
+		for (auto p : graph_.at(i)) {
+			if (sccSet.find(p.first) != sccSet.end()) 
+				new_edges.push_back(std::make_pair(p.first, 11 - p.second)); 
+		}
+		new_graph[i] = new_edges;
+	}
+	return new_graph;
+}
+
+// first int in the pair is user id, second int is shortest path length
+std::vector<std::pair<int,int>> Graph::dijkstra(std::map<int, std::vector<std::pair<int, int>>>& sccGraph, int start) {
+	std::vector<int> distance;
+	std::vector<std::pair<int, int>> result;
+	std::vector<bool> visited;
+	std::map<int, int> oldToNewInd, newToOldInd;
+
+	int count = 0;
+	for (auto p : sccGraph) {
+		oldToNewInd[p.first] = count;
+		newToOldInd[count] = p.first;
+		count++;
+	}
+
+	for (size_t i = 0; i < sccGraph.size(); i++) {
+		distance.push_back(-1);  // Instead of INT_MAX
+		visited.push_back(false);
+	}
+
+	distance.at(oldToNewInd[start]) = 0;
+
+	
+
+	for (size_t i = 0; i < sccGraph.size() - 1; i++) {
+		// u is the vertex that has the shortest distance from
+		// starting point in all the vertices that haven't been visited
+		int u = findClosest(distance, visited);
+		visited[u] = true;
+		// std::cout << "current u : " << u << std::endl;
+
+		for (size_t v = 0; v < sccGraph.size(); v++) {
+			if (!visited[v]) {
+				int weight = getEdgeWeight(sccGraph, newToOldInd[u], newToOldInd[v]);
+				if (weight >= 0 && distance[u] >= 0 && (distance[v] < 0 || distance[u] + weight < distance[v]))
+					distance[v] = distance[u] + weight;
+			}
+		}
+	}
+	// std::cout << "checcckkkk" << std::endl;
+
+	for (size_t i = 0; i < distance.size(); i++) 
+		result.push_back(std::make_pair(newToOldInd[i], distance[i]));
+
+	return result;
+}
+
+int Graph::findClosest(std::vector<int>& dist, std::vector<bool> visited) {
+	int minVal = -1, minInd;
+
+	for (size_t i = 0; i < dist.size(); i++) {
+		if ((dist[i] >= 0 && !visited[i]) && (minVal < 0 || dist[i] < minVal)) {
+			minVal = dist[i];
+			minInd = i;
+		}
+	}
+	return minInd;
+}
+
+int Graph::getEdgeWeight(std::map<int, std::vector<std::pair<int, int>>>& g, int u, int v) {
+	auto edges = g.at(u);
+	for (size_t i = 0; i <edges.size(); i++) {
+		if (edges.at(i).first == v) return edges.at(i).second;
+	}
+	return -1;
+}
+
+std::set<int> Graph::getVertices() {
+	std::set<int> s;
+
+	for (auto pair : graph_) {
+		s.insert(pair.first);
+	}
+
+	return s;
+}
+
+// bool Graph::checkSCC(std::set<int>& scc) {
+// 	for (int i : scc) {
+// 		bool invalid = true;
+// 		std::cout << i  << " test " << graph_.at(i).size() << std::endl;
+// 		for (auto p : graph_.at(i)) {
+// 			if (scc.find(p.first) != scc.end()) {
+// 				bool invalid = false;
+// 				break;
+// 			} 
+// 		} 
+// 		if (invalid) return false;
+// 	}
+// 	return true;
+// }
