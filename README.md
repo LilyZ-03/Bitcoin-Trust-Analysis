@@ -49,7 +49,7 @@ make
 ```
 ./main ../data/soc-sign-bitcoinotc.csv
 ```
-Upon running `./main`, **DFS** runs to remove the edges that are weighted equal to or below the selected bound (the default is defined as 2). Additionally, **Tarjan’s algorithm** runs to determine strongly connected components or “trust networks” between users.
+Upon running `./main`, **DFS** runs to remove the edges that are weighted equal to or below the selected bound (defined here as 2). Additionally, **Tarjan’s algorithm** runs to determine strongly connected components or “trust networks” between users.
  
 Then the program will ask the user to enter a User ID and a boundary of recommendation, which is the maximum possible length of the shortest path between the user and any given seller.
  
