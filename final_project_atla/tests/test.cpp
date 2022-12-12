@@ -19,7 +19,7 @@
 //     }
 // }
 
-TEST_CASE("Test Graph constructor - small") {
+TEST_CASE("Test Graph constructor - small", "[constructor]") {
      try {
         std::string file = "../data/tarjan-test1.csv";
         Graph g(file);
@@ -54,7 +54,7 @@ TEST_CASE("Test Graph constructor - small") {
     }
 }
 
-TEST_CASE("Test Graph constructor") {
+TEST_CASE("Test Graph constructor", "[constructor]") {
     try {
         std::string file = "../data/soc-sign-bitcoinotc.csv";
         Graph g(file);
@@ -70,7 +70,7 @@ TEST_CASE("Test Graph constructor") {
     }
 }
 
-TEST_CASE("Test disconnect method on dummy graph") { 
+TEST_CASE("Test disconnect method on dummy graph", "[dfs]") { 
     std::map<int, std::vector<std::pair<int, int>>> dummy = std::map<int, std::vector<std::pair<int, int>>>();
     dummy[0] = {std::make_pair(1,4), std::make_pair(2,1), std::make_pair(3,-1), std::make_pair(1,-10)};
     dummy[1] = {std::make_pair(1,-10), std::make_pair(2,10)};
@@ -124,7 +124,7 @@ TEST_CASE("Test disconnect method on dummy graph") {
     REQUIRE(dummy.at(vertex).size() == 0);
 }
 
-TEST_CASE("Test disconnect method during DFS - small") {
+TEST_CASE("Test disconnect method during DFS - small", "[dfs]") {
     try {
         std::string file = "../data/tarjan-test1.csv";
         Graph g(file);
@@ -141,7 +141,7 @@ TEST_CASE("Test disconnect method during DFS - small") {
     }
 }
 
-TEST_CASE("Test disconnect method during DFS") {
+TEST_CASE("Test disconnect method during DFS", "[dfs]") {
     std::string file = "../data/soc-sign-bitcoinotc.csv";
     Graph g(file);
     g.DFS();
@@ -155,7 +155,7 @@ TEST_CASE("Test disconnect method during DFS") {
     }
 }
 
-TEST_CASE("Test Tarjan's - small") {
+TEST_CASE("Test Tarjan's - small", "[dfs][tarjan]") {
     std::string file = "../data/tarjan-test1.csv";
     Graph g(file);
     g.DFS();
