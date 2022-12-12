@@ -53,7 +53,7 @@ Upon running `./main`, **DFS** runs to remove the edges that are weighted equal 
  
 Then the program will ask the user to enter a User ID and a boundary of recommendation, which is the maximum possible length of the shortest path between the user and any given seller.
  
-Once this input is received: **Dijkstra's algorithm** runs to filter the strongly connected component and determine sellers strongly related to the user within a boundary of recommendation. Any seller whose path to the user is longer than this bound would not be an appropriate recommendation according to the user’s preference. Upon successful completion of this double filter, the program outputs a list of all sellers that are the most strongly related to the user in a file titled `output.txt` under `final_project_atla` (refer to the [Organization](#organization) section for a link to the exact physical location).
+Once this input is received: **Dijkstra's algorithm** runs to filter the strongly connected component and determine sellers strongly related to the user within a boundary of recommendation. Any seller whose path to the user is longer than this bound would not be an appropriate recommendation according to the user’s preference. Upon successful completion of this double filter, the program outputs a list of all sellers that are the most strongly related to the user in a file titled `output.txt` under `final_project_atla`.
  
 #### **To run the executable for main with a dataset other than the default Bitcoin OTC data, use the command:**
 ```bash
