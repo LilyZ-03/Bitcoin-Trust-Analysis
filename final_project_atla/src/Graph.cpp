@@ -60,11 +60,9 @@ Graph::Graph(const std::string &filename) {
 
 	if (problem.size() != 0) {
 
-		// std::cout << "invalid data entries exist." << std::endl;
 		throw "Invalid data entries exist.";
 
 		for (size_t i = 0; i < problem.size(); i++) 
-			// std::string message = "Problem exists at line " + problem[i].first;
 			throw "Problem exists at line " + std::to_string(problem[i].first);
 	
 	} else {
@@ -154,7 +152,6 @@ std::vector<std::set<int>> Graph::getSCC() {
     test_iter--;
 
 	int maxIDNumber = test_iter->first;
-	//std::cout << "maxIDNo " << maxIDNumber << std::endl;
 
 	for (int i = 0; i <= maxIDNumber; i++) { // initializing all vectors with -1
 		disc.push_back(-1);
@@ -266,7 +263,6 @@ std::vector<std::pair<int,int>> Graph::dijkstra(std::map<int, std::vector<std::p
 		// starting point in all the vertices that haven't been visited
 		int u = findClosest(distance, visited);
 		visited[u] = true;
-		// std::cout << "current u : " << u << std::endl;
 
 		for (size_t v = 0; v < sccGraph.size(); v++) {
 			if (!visited[v]) {
@@ -276,7 +272,6 @@ std::vector<std::pair<int,int>> Graph::dijkstra(std::map<int, std::vector<std::p
 			}
 		}
 	}
-	// std::cout << "checcckkkk" << std::endl;
 
 	for (size_t i = 0; i < distance.size(); i++) 
 		result.push_back(std::make_pair(newToOldInd[i], distance[i]));
@@ -313,18 +308,3 @@ std::set<int> Graph::getVertices() {
 
 	return s;
 }
-
-// bool Graph::checkSCC(std::set<int>& scc) {
-// 	for (int i : scc) {
-// 		bool invalid = true;
-// 		std::cout << i  << " test " << graph_.at(i).size() << std::endl;
-// 		for (auto p : graph_.at(i)) {
-// 			if (scc.find(p.first) != scc.end()) {
-// 				bool invalid = false;
-// 				break;
-// 			} 
-// 		} 
-// 		if (invalid) return false;
-// 	}
-// 	return true;
-// }

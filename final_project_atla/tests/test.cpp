@@ -4,21 +4,6 @@
 
 #include "Graph.hpp"
 
-// TEST_CASE("Test data validation") {
-//     try {
-
-//         std::string file = "../data/invalid-input-test.csv";
-//         Graph g(file);
-//         REQUIRE(false);
-
-//     } catch(const std::runtime_error& e) {
-//        std::cout << e.what() << std::endl;
-
-//        std::string actualMessage = e.what();
-//         REQUIRE(actualMessage == "Invalid data entries exist at line 1,4,6\n");
-//     }
-// }
-
 TEST_CASE("Test Graph constructor - small", "[constructor]") {
      try {
         std::string file = "../data/tarjan-test1.csv";

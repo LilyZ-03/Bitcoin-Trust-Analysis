@@ -77,10 +77,8 @@ class Graph {
         void disconnect(int vertex);
         void DFSHelper(int vertex, std::set<int>& visited);
         void SCCHelper(int u, std::stack<int>& s); // u is the current vertex being processed
-        // std::set<int> getParentSCC(std::vector<std::set<int>>& scc, int v);
         int findClosest(std::vector<int>& dist, std::vector<bool> visited);
         int getEdgeWeight(std::map<int, std::vector<std::pair<int, int>>>& g, int u, int v);
-        // bool checkSCC(std::set<int>& scc);
 
         std::vector<int> disc; // Tarjan's
         std::vector<int> low; // Tarjan's

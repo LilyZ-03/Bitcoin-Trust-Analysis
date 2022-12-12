@@ -7,12 +7,6 @@ bool validSCCGraph(std::map<int, std::vector<std::pair<int, int>>>& g) {
     return true;
 }
 
-// struct sort_pair_second {
-//     bool operator()(const std::pair<int,int> &left, const std::pair<int,int> &right) {
-//         return left.second < right.second;
-//     }
-// };
-
 void PrintFail(const std::string& command) {
   std::cout << "Usage: " << command
             << "\nWrong input format. \n"
@@ -68,7 +62,6 @@ int main(int argc, char* argv[]) {
 
     // let user choose input file
 
-    // std::string file = "../data/soc-sign-bitcoinotc.csv"
     std::cout << "Opening file " << "\"" << inputFileAddress << "\"" << std::endl;
     Graph g(inputFileAddress);
     auto graph = g.getGraph();
@@ -76,26 +69,10 @@ int main(int argc, char* argv[]) {
     g.DFS();
 
     graph = g.getGraph();
-    //std::map<int, std::vector<std::pair<int, int>>> graph_;
-
-    // for (auto i : graph) {
-
-    //     //if (i.first == 268 || i.first == 448 || i.first == 856 || i.first == 1743) {
-    //     //for (unsigned int i = 0; i < graph.size(); i++) {
-    //         std::cout  << "Vertex: " << i.first << " and neighbor weights: ";
-    //         for (unsigned int j = 0; j < i.second.size(); j++) {
-    //             std::cout << i.second.at(j).second << ", "
-    //         }
-    //         std::cout << std::endl;
-    //     //}
-    
-    // }
     
     std::cout << "Total number of users: " << g.getNumVertices() << std::endl; 
 
     std::vector<std::set<int>> scc = g.getSCC();
-
-    // std::cout << scc.size() << std::endl;
 
     // 1803 is from scc 0, the largest scc in the graph
     
@@ -152,20 +129,17 @@ int main(int argc, char* argv[]) {
                 std::cout << "Please enter the boundary for recommendation:" << std::endl;
                 std::cin >> boundary;
 
-                // std::cout << "Suggested user(s):\n";
                 myfile << "Suggested user(s):\n";
 
                 int countSuggested = 0;
 
                 for (size_t i = 0; i < dist.size(); i++) {
                     if (dist[i].second <= boundary) {
-                        // std::cout << i.first << " ";
                         myfile << dist[i].first << std::endl;
                         countSuggested++;
                     }
                 }
 
-                // if (countSuggested == 0) std::cout << "No user can be suggested.";
                 if (countSuggested == 0) myfile << "No user can be suggested.";
 
                 myfile.close();
