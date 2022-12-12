@@ -94,7 +94,6 @@ Note that for any format of the `./main` command, the `-a` and `-o` flags are op
 
 **Defaults:** <br/>
 - *Algorithm:* suggested users algorithm <br/>
-- *Input:* Bitcoin OTC dataset <br/>
 - *Output:* `../output.txt`
 - - -
 
