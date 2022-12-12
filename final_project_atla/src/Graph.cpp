@@ -60,20 +60,12 @@ Graph::Graph(const std::string &filename) {
 
 	if (problem.size() != 0) {
 
-		std::string errorMessage = "Invalid data entries exist at line ";
+		// std::cout << "invalid data entries exist." << std::endl;
+		throw "Invalid data entries exist.";
 
-		for (size_t i = 0; i < problem.size(); i++) {
-			std::string message = "Problem exists at line " + std::to_string(problem[i].first + 1);
-			std::cout << message << std::endl;
-			if (i == problem.size() - 1) {
-				errorMessage += std::to_string(problem[i].first + 1) + "\n";
-			} else {
-				errorMessage += std::to_string(problem[i].first + 1) + ",";
-			}
-			// throw "Problem exists at line " + std::to_string(problem[i].first);
-		}
-
-		throw std::invalid_argument(errorMessage);
+		for (size_t i = 0; i < problem.size(); i++) 
+			// std::string message = "Problem exists at line " + problem[i].first;
+			throw "Problem exists at line " + std::to_string(problem[i].first);
 	
 	} else {
 
