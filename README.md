@@ -45,9 +45,9 @@ cd build
 ```bash
 make
 ```
-#### **To run the executable for `main` with default arguments, use the command:**
+#### **To run the executable for `main` with default arguments and on the dataset we used in our project (Bitcoin OTC data), use the command:**
 ```
-./main
+./main ../data/soc-sign-bitcoinotc.csv
 ```
 Upon running `./main`, **DFS** runs to remove the edges that are weighted equal to or below the selected bound (the default is defined as 2). Additionally, **Tarjan’s algorithm** runs to determine strongly connected components or “trust networks” between users.
  
@@ -70,8 +70,6 @@ This will run `main` as described [above](#to-run-the-executable-for-main-with-d
 where `[input file address]` is replaced with the file path of the desired CSV file and `[output file address]` is replaced with the desired file path of the output file (any name).
  
 This will run `main` as described [above](#to-run-the-executable-for-main-with-default-arguments-use-the-command) on the inputted dataset.
-
-./main [input file address] -o [output file address]
 
 #### **To run the executable for main with a specific algorithm request:**
 ```bash
