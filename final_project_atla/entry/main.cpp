@@ -105,11 +105,8 @@ int main(int argc, char* argv[]) {
             std::cout << "Please enter the boundary for recommendation:" << std::endl;
             std::cin >> boundary;
 
-            // std::sort(dist.begin(), dist.end(), sort_pair_second());
-
-            // myfile << "Source user ID: " << startPt << "\n";
-
-            myfile << "Suggested user ID(s):\n";
+            // std::cout << "Suggested user(s):\n";
+            myfile << "Suggested user(s):\n";
 
             int countSuggested = 0;
 
