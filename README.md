@@ -45,15 +45,15 @@ cd build
 ```bash
 make
 ```
-#### **To run the executable for `main` with default arguments, use the command:**
+#### **To run the executable for `main` with default arguments and on the dataset we used in our project (Bitcoin OTC data), use the command:**
 ```
-./main
+./main ../data/soc-sign-bitcoinotc.csv
 ```
-Upon running `./main`, **DFS** runs to remove the edges that are weighted equal to or below the selected bound (the default is defined as 2). Additionally, **Tarjan’s algorithm** runs to determine strongly connected components or “trust networks” between users.
+Upon running `./main`, **DFS** runs to remove the edges that are weighted equal to or below the selected bound (defined here as 2). Additionally, **Tarjan’s algorithm** runs to determine strongly connected components or “trust networks” between users.
  
 Then the program will ask the user to enter a User ID and a boundary of recommendation, which is the maximum possible length of the shortest path between the user and any given seller.
  
-Once this input is received: **Dijkstra's algorithm** runs to filter the strongly connected component and determine sellers strongly related to the user within a boundary of recommendation. Any seller whose path to the user is longer than this bound would not be an appropriate recommendation according to the user’s preference. Upon successful completion of this double filter, the program outputs a list of all sellers that are the most strongly related to the user in a file titled `output.txt` under `final_project_atla` (refer to the [Organization](#organization) section for a link to the exact physical location).
+Once this input is received: **Dijkstra's algorithm** runs to filter the strongly connected component and determine sellers strongly related to the user within a boundary of recommendation. Any seller whose path to the user is longer than this bound would not be an appropriate recommendation according to the user’s preference. Upon successful completion of this double filter, the program outputs a list of all sellers that are the most strongly related to the user in a file titled `output.txt` under `final_project_atla`.
  
 #### **To run the executable for main with a dataset other than the default Bitcoin OTC data, use the command:**
 ```bash
@@ -71,8 +71,6 @@ where `[input file address]` is replaced with the file path of the desired CSV f
  
 This will run `main` as described [above](#to-run-the-executable-for-main-with-default-arguments-use-the-command) on the inputted dataset.
 
-./main [input file address] -o [output file address]
-
 #### **To run the executable for main with a specific algorithm request:**
 ```bash
 ./main [input file address] -a [algorithm keyword] -o [output file address]
@@ -89,7 +87,6 @@ This is the default if no keyword is specified and will output a list of suggest
 Note that for any format of the `./main` command, the `-a` and `-o` flags are optional.
 
 **Summary:** <br/>
-`./main`
 
 `./main [input file address]`
 
@@ -97,7 +94,6 @@ Note that for any format of the `./main` command, the `-a` and `-o` flags are op
 
 **Defaults:** <br/>
 - *Algorithm:* suggested users algorithm <br/>
-- *Input:* Bitcoin OTC dataset <br/>
 - *Output:* `../output.txt`
 - - -
 
