@@ -25,9 +25,9 @@
 ## Setup & Running Instructions
 Ensure that the Docker application is running and that the directory containing the CS225 Dockerfile has been opened in the dev container.
 
-Clone this [repository](https://github.com/trishacho/cs225-finalproject-atla) or pull a zip file of the repository to your local machine. Copy the directory titled `cs225-finalproject-atla` into the directory containing the CS225 Dockerfile.
+Once in the directory containing the CS225 Dockerfile, clone this [repository](https://github.com/trishacho/cs225-finalproject-atla) or pull a zip file of the repository to your local machine.
 
-Next, run the following commands in the terminal to create the `build` directory and run CMake.
+When the `cs225-finalproject-atla` directory is open, run the following commands in the terminal to create the `build` directory and run CMake.
 
 ```bash
 cd final_project_atla
