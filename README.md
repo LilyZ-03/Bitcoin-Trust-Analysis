@@ -87,7 +87,6 @@ This is the default if no keyword is specified and will output a list of suggest
 Note that for any format of the `./main` command, the `-a` and `-o` flags are optional.
 
 **Summary:** <br/>
-`./main`
 
 `./main [input file address]`
 
