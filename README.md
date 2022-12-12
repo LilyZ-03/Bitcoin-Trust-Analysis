@@ -9,7 +9,7 @@
 4. [Results](#results)
 - - -
 ## Organization
-- [Final Report](https://docs.google.com/document/d/1cd8VkSTXaGe4ck-VW-u77L7J2TSxZElRIULlsFcRh9w/edit?usp=sharing)
+- [Results / Final Report](https://github.com/trishacho/cs225-finalproject-atla/blob/main/Documentation/results.md)
 - [Presentation Video](https://illinois.zoom.us/rec/play/uLt5crYYIYsWwYwacecyYeYFQ63mj0yeVdUE0cCi_bRJApU5agiPb7pOiEPKLOyrPUpGo6Fvb3KOtrN6.gOlPTW_XtGHRPryV?continueMode=true&_x_zm_rtaid=D5T4zKyWQN6tl1yVks7esg.1670643977688.5a34bcd22734df256e3397b56fd68597&_x_zm_rhtaid=513)
 - [Github Repository](https://github.com/trishacho/cs225-finalproject-atla)
   - Documentation (Project Proposal, Team Contract, Development Logs): [`/documentation`](https://github.com/trishacho/cs225-finalproject-atla/tree/main/Documentation)
