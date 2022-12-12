@@ -16,7 +16,7 @@
   - Code: [`/final_project_atla/src`](https://github.com/trishacho/cs225-finalproject-atla/tree/main/final_project_atla/src)
   - Entry: [`/final_project_atla/entry`](https://github.com/trishacho/cs225-finalproject-atla/tree/main/final_project_atla/entry)
   - Results: [`/final_project_atla/results.md`](https://github.com/trishacho/cs225-finalproject-atla/blob/main/final_project_atla/output.txt)
-  - Output File: [`/final_project_atla/output.txt`](https://github.com/trishacho/cs225-finalproject-atla/blob/main/final_project_atla/output.txt)
+  - Output File: Output depends on user input; by default, output files will be nested under [`/final_project_atla`](https://github.com/trishacho/cs225-finalproject-atla/tree/main/final_project_atla).
   - Tests: [`/final_project_atla/tests`](https://github.com/trishacho/cs225-finalproject-atla/tree/main/final_project_atla/tests)
   - Data:
     - [`/final_project_atla/data`](https://github.com/trishacho/cs225-finalproject-atla/tree/main/final_project_atla/data)
@@ -26,6 +26,20 @@
 Ensure that the Docker application is running and that the directory containing the CS225 Dockerfile has been opened in the dev container.
 
 Clone this [repository](https://github.com/trishacho/cs225-finalproject-atla) or pull a zip file of the repository to your local machine. Copy the directory titled `cs225-finalproject-atla` into the directory containing the CS225 Dockerfile.
+
+Next, run the following commands in the terminal to create the `build` directory and run CMake.
+
+```bash
+cd final_project_atla
+mkdir build
+cd build
+cmake ..
+```
+
+Note that when building and running executables, you must be in the `build` directory:
+```bash
+cd build
+```
 
 #### **To build the executable, use the command:**
 ```bash
