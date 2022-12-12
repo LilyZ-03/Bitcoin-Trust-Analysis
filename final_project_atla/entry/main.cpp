@@ -7,12 +7,30 @@ bool validSCCGraph(std::map<int, std::vector<std::pair<int, int>>>& g) {
     return true;
 }
 
-int main() {
-    // std::cout << "Hi" << std::endl;
+// struct sort_pair_second {
+//     bool operator()(const std::pair<int,int> &left, const std::pair<int,int> &right) {
+//         return left.second < right.second;
+//     }
+// };
+
+void PrintFail(const std::string& command) {
+  std::cout << "Usage: " << command
+            << "\nWrong input format \n"
+            << "Correct format: ./main [input file address]\n";
+}
+
+int main(int argc, char* argv[]) {
+    
+    if (argc != 2) {
+        PrintFail(argv[0]);
+        return 1;
+    }
 
     // let user choose input file
 
-    std::string file = "../data/soc-sign-bitcoinotc.csv";
+    // std::string file = "../data/soc-sign-bitcoinotc.csv"
+    std::cout << "Opening file " << "\"" << argv[1] << "\"" << std::endl;
+    std::string file = argv[1];
     Graph g(file);
     auto graph = g.getGraph();
 
@@ -43,13 +61,15 @@ int main() {
     std::vector<std::set<int>> scc = g.getSCC();
 
 
-    for (size_t i = 0; i < scc.size(); i++) {
-        std::string output = "";
-        for (int entry : scc.at(i)) {
-            output += std::to_string(entry) + " ";
-        }
-        std::cout << "SCC " << i << ": " << output << std::endl;
-    }
+
+    // Output for all SCCs
+    // for (size_t i = 0; i < scc.size(); i++) {
+    //     std::string output = "";
+    //     for (int entry : scc.at(i)) {
+    //         output += std::to_string(entry) + " ";
+    //     }
+    //     std::cout << "SCC " << i << ": " << output << std::endl;
+    // }
 
     // std::cout << scc.size() << std::endl;
 
@@ -59,9 +79,6 @@ int main() {
 
     int startPt;
 
-    std::ofstream myfile;
-    myfile.open("output.txt");
-
     std::cout << "Please enter the user ID:" << std::endl;
     std::cin >> startPt;
 
@@ -70,7 +87,6 @@ int main() {
     if (allUserID.find(startPt) == allUserID.end()) {
 
         std::cout << "This is not a valid user ID.\n";
-        // myfile << "This is not a valid user ID.\n";
 
     } else {
 
@@ -79,12 +95,8 @@ int main() {
 
         if (sccGraph.size() != 0 && validSCCGraph(sccGraph)) {
 
-            // for (auto i : sccGraph) {
-            //     std::cout << "ID: " << i.first << " weights: ";
-            //     for (unsigned int j = 0; j < i.second.size(); j++) 
-            //         std::cout << i.second.at(j).second << ", ";
-            //     std::cout << std::endl;
-            // }
+            std::ofstream myfile;
+            myfile.open("../output.txt");
 
             auto dist = g.dijkstra(sccGraph, startPt);
 
@@ -93,15 +105,18 @@ int main() {
             std::cout << "Please enter the boundary for recommendation:" << std::endl;
             std::cin >> boundary;
 
-            // std::cout << "Suggested user(s):\n";
-            myfile << "Suggested user(s):\n";
+            // std::sort(dist.begin(), dist.end(), sort_pair_second());
+
+            // myfile << "Source user ID: " << startPt << "\n";
+
+            myfile << "Suggested user ID(s):\n";
 
             int countSuggested = 0;
 
-            for (auto i : dist) {
-                if (i.second <= boundary) {
+            for (size_t i = 0; i < dist.size(); i++) {
+                if (dist[i].second <= boundary) {
                     // std::cout << i.first << " ";
-                    myfile << i.first << std::endl;
+                    myfile << dist[i].first << std::endl;
                     countSuggested++;
                 }
             }
@@ -109,22 +124,12 @@ int main() {
             // if (countSuggested == 0) std::cout << "No user can be suggested.";
             if (countSuggested == 0) myfile << "No user can be suggested.";
 
-            // std::cout << std::endl;
+            myfile.close();
 
         } else {
             std::cout << "This user is not in a valid strongly connected component, so there are no justified recommendations to give." << std::endl;
         }
     }
 
-    myfile.close();
-
-    // auto e = sccGraph.at(startPt);
-    // for (auto p : e) {
-    //     std::cout << p.first << ":" << p.second << std::endl;
-    // }
-
-
-    // for (size_t i = 0; i < vec.size(); i++) {
-    //     std::cout << vec[i][0] << " " << vec[i][1] << " " << vec[i][2] << " " << vec[i][3] << " " << std::endl;
-    // }
+    return 0;
 }
