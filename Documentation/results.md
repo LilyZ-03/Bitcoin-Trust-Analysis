@@ -1,4 +1,4 @@
-# CS 225 Final Project Results
+# CS 225 Final Project Report
 ## Table of Contents
 1. [Algorithm Results & Tests](#algorithm-results--tests)
 2. [Reflection](#reflection)

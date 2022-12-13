@@ -55,7 +55,7 @@ TEST_CASE("Test Graph constructor", "[constructor]") {
     }
 }
 
-TEST_CASE("Test disconnect method on dummy graph", "[dfs]") { 
+TEST_CASE("Test disconnect method on dummy graph", "[disconnect]") { 
     std::map<int, std::vector<std::pair<int, int>>> dummy = std::map<int, std::vector<std::pair<int, int>>>();
     dummy[0] = {std::make_pair(1,4), std::make_pair(2,1), std::make_pair(3,-1), std::make_pair(1,-10)};
     dummy[1] = {std::make_pair(1,-10), std::make_pair(2,10)};
@@ -140,7 +140,7 @@ TEST_CASE("Test disconnect method during DFS", "[dfs]") {
     }
 }
 
-TEST_CASE("Test Tarjan's - small", "[dfs][tarjan]") {
+TEST_CASE("Test Tarjan's", "[dfs][tarjan]") {
     std::string file = "../data/tarjan-test1.csv";
     Graph g(file);
     g.DFS();
@@ -153,4 +153,41 @@ TEST_CASE("Test Tarjan's - small", "[dfs][tarjan]") {
 
     REQUIRE(scc.at(0) == scc1);
     REQUIRE(scc.at(1) == scc2);
+}
+
+TEST_CASE("Test Dijkstra's", "[dfs][dijkstra]") {
+    std::string file = "../data/tarjan-test1.csv";
+    Graph g(file);
+    g.DFS();
+    std::vector<std::set<int>> scc = g.getSCC();
+    
+    std::map<int, std::vector<std::pair<int, int>>> sccGraph = g.getSCCGraph(scc, 1);
+    std::vector<std::pair<int, int>> output = g.dijkstra(sccGraph, 1);
+
+    // Subtract 11 from expected path lengths because of the inverse weighting strategy implemented in
+    // our implementation of Dijkstra's algorithm.
+
+    // Test 1st strongly connected component
+    REQUIRE(output.at(1).first == 2);
+    REQUIRE(abs(11 - output.at(1).second) == 5);
+
+    REQUIRE(output.at(2).first == 3);
+    REQUIRE(abs(11 - output.at(2).second) == 4);
+    
+    // Test 2nd strongly connected component
+    sccGraph = g.getSCCGraph(scc, 10);
+    output = g.dijkstra(sccGraph, 10);
+
+    REQUIRE(output.at(0).first == 5);
+    REQUIRE(abs(11 - output.at(0).second) == 4);
+
+    REQUIRE(output.at(1).first == 6);
+    REQUIRE(abs(11 - output.at(1).second) == 4);
+
+    REQUIRE(output.at(2).first == 8);
+    REQUIRE(abs(11 - output.at(2).second) == 3);
+
+    REQUIRE(output.at(3).first == 9);
+    REQUIRE(abs(11 - output.at(3).second) == 3);
+
 }

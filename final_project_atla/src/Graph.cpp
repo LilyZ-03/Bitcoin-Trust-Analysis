@@ -1,5 +1,16 @@
-#include "Graph.hpp"
+/**
+ * @file Graph.cpp
+ *
+ * Implementation of the Graph class.
+ *
+ * CS 225: Data Structures
+ * Team Atla Final Project
+ */
 
+ #include "Graph.hpp"
+
+
+// Helper function for data parsing, to process a line in the CSV file.
 std::vector<std::string> parseLine(std::string line) {
 	size_t l = 0, r = 0;
 	std::vector<std::string> elems;
@@ -13,6 +24,7 @@ std::vector<std::string> parseLine(std::string line) {
 	return elems;
 }
 
+// Helper function to determine whether a string is convertible to a float/int number.
 bool isNumber(std::string s) {
 	bool decimalAppeared = false;
 	for (size_t i = 0; i < s.size(); i++) {
@@ -31,6 +43,10 @@ bool isNumber(std::string s) {
 	return true;
 }
 
+/* 
+A helper function to perform data validation, will return a vector of all existing problems --
+Each problem is represented as a pair where the first argument is the line index and the second argument is the type of problem.
+*/
 std::vector<std::pair<int, int>> dataValidation(std::vector<std::vector<std::string>> data) {
 	std::vector<std::pair<int, int>> problem;
 	for (size_t i = 0; i < data.size(); i++) {
@@ -54,6 +70,7 @@ std::vector<std::pair<int, int>> dataValidation(std::vector<std::vector<std::str
 	return problem;
 }
 
+// Constructor. Data parsing and validation are both performed inside the constructor.
 Graph::Graph(const std::string &filename) {
 	auto datavec = parseData(filename);
 	auto problem = dataValidation(datavec);
@@ -85,6 +102,7 @@ Graph::Graph(const std::string &filename) {
 
 }
 
+// Helper function for data parsing.
 std::vector<std::vector<std::string>> Graph::parseData(const std::string &filename) {
     std::ifstream file(filename);
     std::vector<std::vector<std::string>> dataVec;
@@ -98,14 +116,17 @@ std::vector<std::vector<std::string>> Graph::parseData(const std::string &filena
     return dataVec;
 }
 
+// Getter of the edges from the given vertex.
 std::vector<std::pair<int, int>> Graph::getEdge(int vertex) {
 	return graph_.at(vertex);
 }
 
+// Getter for the total number of vertices.
 int Graph::getNumVertices() {
 	return graph_.size();
 }
 
+// Deep-First Search algorithm, to disconnect edges below 
 void Graph::DFS() {
 	std::set<int> visited;
 	// Call DFS on every vertex that hasn't been visited yet
@@ -117,6 +138,7 @@ void Graph::DFS() {
 	}
 }
 
+// Recursive helper function for DFS traversal.
 void Graph::DFSHelper(int vertex, std::set<int>& visited) {
 	visited.insert(vertex);
 
@@ -129,8 +151,8 @@ void Graph::DFSHelper(int vertex, std::set<int>& visited) {
 	disconnect(vertex);
 } 
 
-// Disconnect edges between vertices that are negative or not weighted high enough
-// Criteria: If edge is weighted at the bound or lower, weakly related
+// Disconnect edges between vertices that are negative or not weighted high enough.
+// Criteria: If edge is weighted at the bound or lower, it is weakly related.
 void Graph::disconnect(int vertex) {
 	for (size_t i = 0; i < graph_.at(vertex).size(); i++) { // e is a pair <user id of the other user, weight of edge>
 		if (graph_.at(vertex).at(i).second <= BOUND_) {
@@ -140,6 +162,7 @@ void Graph::disconnect(int vertex) {
 	}          
 }
 
+// Function to run Tarjan's algorithm & get strongly connected components.
 std::vector<std::set<int>> Graph::getSCC() {
 	std::vector<std::set<int>> scc;
 	std::stack<int> s;
@@ -153,7 +176,7 @@ std::vector<std::set<int>> Graph::getSCC() {
 
 	int maxIDNumber = test_iter->first;
 
-	for (int i = 0; i <= maxIDNumber; i++) { // initializing all vectors with -1
+	for (int i = 0; i <= maxIDNumber; i++) { // Initialize all vectors with -1.
 		disc.push_back(-1);
 		low.push_back(-1);
 		stackMember.push_back(false);
@@ -181,6 +204,7 @@ std::vector<std::set<int>> Graph::getSCC() {
 	return scc;
 }
 
+// Helper function for Tarjan's algorithm.
 void Graph::SCCHelper(int u, std::stack<int>& s) { 
 	static int time = 0;
 	disc[u] = low[u] = ++time;
@@ -211,6 +235,8 @@ void Graph::SCCHelper(int u, std::stack<int>& s) {
 	}
 }
 
+// Get all the vertices in the SCC that vertice v belongs to.
+// If vertex v does not belong to any SCC in this graph, an empty set is returned.
 std::set<int> Graph::getParentSCC(std::vector<std::set<int>>& scc, int v) {
 	for (size_t i = 0; i < scc.size(); i++) {
 		if (scc.at(i).find(v) != scc.at(i).end()) 
@@ -220,6 +246,7 @@ std::set<int> Graph::getParentSCC(std::vector<std::set<int>>& scc, int v) {
 	return std::set<int>();
 }
 
+// Make a smaller graph from the old graph with all the vertices in the same SCC as the source vertex.
 std::map<int, std::vector<std::pair<int, int>>> Graph::getSCCGraph(std::vector<std::set<int>>& scc, int v) {
 	std::set<int> sccSet = getParentSCC(scc, v);
 	if (sccSet.size() == 0) return std::map<int, std::vector<std::pair<int, int>>>();
@@ -228,6 +255,7 @@ std::map<int, std::vector<std::pair<int, int>>> Graph::getSCCGraph(std::vector<s
 		std::vector<std::pair<int, int>> new_edges;
 		for (auto p : graph_.at(i)) {
 			if (sccSet.find(p.first) != sccSet.end()) 
+				// Inverse weight to obtain higher weighted trusts
 				new_edges.push_back(std::make_pair(p.first, 11 - p.second)); 
 		}
 		new_graph[i] = new_edges;
@@ -235,7 +263,8 @@ std::map<int, std::vector<std::pair<int, int>>> Graph::getSCCGraph(std::vector<s
 	return new_graph;
 }
 
-// first int in the pair is user id, second int is shortest path length
+// Dijkstra's algorithm, to find the shortest path to all vertices in the SCC.
+// In the result returned, first int in the pair is user id, second int is shortest path length.
 std::vector<std::pair<int,int>> Graph::dijkstra(std::map<int, std::vector<std::pair<int, int>>>& sccGraph, int start) {
 	std::vector<int> distance;
 	std::vector<std::pair<int, int>> result;
@@ -255,12 +284,10 @@ std::vector<std::pair<int,int>> Graph::dijkstra(std::map<int, std::vector<std::p
 	}
 
 	distance.at(oldToNewInd[start]) = 0;
-
 	
-
 	for (size_t i = 0; i < sccGraph.size() - 1; i++) {
-		// u is the vertex that has the shortest distance from
-		// starting point in all the vertices that haven't been visited
+		/* u is the vertex that has the shortest distance from
+		starting point in all the vertices that haven't been visited */
 		int u = findClosest(distance, visited);
 		visited[u] = true;
 
@@ -279,6 +306,8 @@ std::vector<std::pair<int,int>> Graph::dijkstra(std::map<int, std::vector<std::p
 	return result;
 }
 
+// Helper function for Dijkstra's algorithm.
+// Find the next vertex that should be visited by the algorithm.
 int Graph::findClosest(std::vector<int>& dist, std::vector<bool> visited) {
 	int minVal = -1, minInd;
 
@@ -291,6 +320,7 @@ int Graph::findClosest(std::vector<int>& dist, std::vector<bool> visited) {
 	return minInd;
 }
 
+// Getter for the weight of the edge from u to v; if there doesn't exist an edge from u to v, the weight is -1.
 int Graph::getEdgeWeight(std::map<int, std::vector<std::pair<int, int>>>& g, int u, int v) {
 	auto edges = g.at(u);
 	for (size_t i = 0; i <edges.size(); i++) {
@@ -299,6 +329,7 @@ int Graph::getEdgeWeight(std::map<int, std::vector<std::pair<int, int>>>& g, int
 	return -1;
 }
 
+// Getter for all the vertices in the graph, as a set of all user IDs.
 std::set<int> Graph::getVertices() {
 	std::set<int> s;
 
