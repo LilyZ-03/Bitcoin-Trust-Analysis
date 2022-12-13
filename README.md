@@ -107,14 +107,21 @@ To run the executable for the tests, use the command:
 ```bash
 ./test
 ```
+To run the executable for the tests only for a specific algorithm, use the command:
+```bash
+./test [test-flag]
+```
+The available test flags are: `[constructor]`, `[disconnect]`, `[dfs]`, `[tarjan]`, & `[dijkstra]`.
+
 The unit tests cover all parts of the code, including the construction of the graph structure after the data parsing, validation, and cleaning; and the main algorithms (Depth First Search (DFS) Traversal, Tarjan’s Algorithm for Strongly Connected Components, and Djikstra’s Algorithm).
  
 The graph construction is tested using both a small CSV file and the Bitcoin OTC dataset. These tests verify that the graph was built properly from cleaned data by checking connections in the graph structure against an expected graph. 
  
-The algorithms are tested with 1) small dummy graphs, 2) subsets of the dataset, and 3) the full dataset. 
+The algorithms are tested with 1) dummy graphs, 2) subsets of the dataset, and 3) the full dataset.
+
 - The DFS tests check that all edges with weights equal to or below the bound (defined as 2) are removed and that all remaining edges have a weight above the bound. 
-- The Tarjan’s tests certify that the returned strongly connected components are the same as the components determined manually. 
-- The Djikstra’s tests verify that the output consists of the intended shortest paths (determined manually) between two users with similar levels of trust.
+- The Tarjan’s test certifies that the returned strongly connected components are the same as the components determined manually. 
+- The Djikstra’s test verifies that the output consists of the intended shortest paths (determined manually) between two users with similar levels of trust.
  
 ## Results
 A detailed summary of results can be found [here](https://github.com/trishacho/cs225-finalproject-atla/tree/main/Documentation/results.md).

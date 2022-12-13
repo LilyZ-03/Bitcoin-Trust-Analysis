@@ -24,7 +24,7 @@ Tests:
 
 ### Dijkstra's Algorithm
 Summary:
-- We ran Dijkstra's algorithm on graph representing the full dataset. As a result of the algorith, we successfully determined shortest path between Bitcoin sellers and users after reweighting based on levels of trust. The result is filtered with a maximum path length to find a list of users that can be suggested.
+- We ran Dijkstra's algorithm on the graph representing the full dataset. As a result of the algorith, we successfully determined shortest path between Bitcoin sellers and users after reweighting based on levels of trust. The result is filtered with a maximum path length to find a list of users that can be suggested.
 
 Tests:
 - Since the full dataset was large, manual identification of strongly connected components in the data would have been difficult. For this reason, in order to test Dijkstra's algorithm, we tested on a dummy graph to verify that the algorithm output matched the shortest path between two users with similar levels of trust that we determined manually (the expected output). 
